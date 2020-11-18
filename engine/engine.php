@@ -33,11 +33,10 @@ $config = array(
 // Initialize container
 $container = new Container($config);
 
-$db = $container->getPDOObj();
 $user = $container->getUserObj();
 $page = $container->getPageObj();
 $role = $container->getRoleObj();
 $privilege = $container->getPrivilegeObj();
 
-if(isset($_GET['p'])) $p = $_GET['p']; else $p = '';
-if(isset($_GET['b'])) $b = $_GET['b']; else $b = '';
+isset($_GET['p']) ? $p = $_GET['p'] : $p = '';
+isset($_GET['b']) ? $b = $_GET['b'] : $b = '';

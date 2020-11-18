@@ -61,16 +61,16 @@ class User {
 
         $errors = array();
 
-        if($this->validator->isEmpty($name)) {
-            $errors['register-username'] = 'Username required.';
-        }
-
         if($this->validator->nameExists($name)) {
             $errors['register-username'] = 'Username already exists.';
         }
 
         if($this->validator->isLonger($name, 3)) {
             $errors['register-username'] = 'Username is too short.';
+        }
+
+        if($this->validator->isEmpty($name)) {
+            $errors['register-username'] = 'Username required.';
         }
 
         if($this->validator->emailExists($email)) {
