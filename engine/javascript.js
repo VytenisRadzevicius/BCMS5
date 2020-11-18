@@ -43,9 +43,6 @@ function execute(instructions) {
         case 'error':
             showAlert(instructions);
             break;
-        case 'modal':
-            showModal(instructions.alert);
-            break;
         case 'populate-add-select':
             populate(instructions.data, 'add-assignment-privilege');
             break;
@@ -86,25 +83,6 @@ function cleareditor() {
     if(typeof editor !== 'undefined') editor.setContents('');
 }
 
-// !!!REWORK!!!
-function showModal(alert) {
-    let myCollapse = document.getElementById(alert)
-    let bsCollapse = new bootstrap.Collapse(myCollapse, {
-        toggle: false
-    });
-    bsCollapse.show();
-    let elements = document.getElementsByClassName('is-invalid');
-    let elements2 = document.getElementsByClassName('is-valid');
-
-    while(elements.length > 0){
-        elements[0].classList.remove('is-invalid');
-    }
-    while(elements2.length > 0){
-        elements2[0].classList.remove('is-valid');
-    }
-    myCollapse.nextElementSibling.reset();
-    cleareditor();
-}
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);

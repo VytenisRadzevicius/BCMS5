@@ -17,15 +17,16 @@ class User {
 
         $errors = array();
 
-        $query = 'SELECT * FROM users WHERE username = :username';
+        $query = 'SELECT username, user_id, role, password FROM users WHERE username = :username';
         $data = array('username' => $name);
         $user = $this->db->select($query, $data);
+        $user = $user[0];
 
         if(empty($user)) {
             $errors['username'] = 'Username does not exist.';
         }
 
-        elseif(!password_verify($pass, $user[0]['password'])) {
+        elseif(!password_verify($pass, $user['password'])) {
             $errors['password'] = 'Password incorrect.';
         }
 
@@ -40,10 +41,10 @@ class User {
         if(empty($errors)) {
             session_regenerate_id();
 			$_SESSION['loggedin'] = true;
-            $_SESSION['name'] = $user[0]['username'];
-			$_SESSION['id'] = $user[0]['user_id'];
-            $_SESSION['role'] = $user[0]['role'];
-            $this->db->update('users', ['login' => date('Y-m-d H:i:s')], 'user_id=:id', ['id' => $user[0]['user_id']]);
+            $_SESSION['name'] = $user['username'];
+			$_SESSION['id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+            $this->db->update('users', ['login' => date('Y-m-d H:i:s')], 'user_id=:id', ['id' => $user['user_id']]);
         }
 
         return $errors;
@@ -114,8 +115,8 @@ class User {
 
     // Get Users
     public function getUser($id = '%') {
-        $query = 'SELECT user_id, username, email, role, joined, login FROM users WHERE user_id LIKE :user_id';
-        $data = array('user_id' => $id);
+        $query = 'SELECT user_id, username, email, role, joined, login FROM users WHERE user_id LIKE :id';
+        $data = array('id' => $id);
         $user = $this->db->select($query, $data);
 
         return $user;
@@ -134,9 +135,9 @@ class User {
     // Delete User
     public function deleteUser($id) {
         $data = array('id' => $id);
-        $page = $this->db->delete('users', 'user_id=:id', $data);
+        $user = $this->db->delete('users', 'user_id=:id', $data);
 
-        return $page;
+        return $user;
     }
 
     // Check privilege

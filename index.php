@@ -229,7 +229,7 @@ include 'engine/engine.php';
         </div>
     </div>
 
-    <? } ?>
+    <?php } ?>
     
     <div class="modal fade" id="profile-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
